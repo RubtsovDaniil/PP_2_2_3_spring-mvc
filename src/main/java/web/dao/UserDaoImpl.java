@@ -2,11 +2,8 @@ package web.dao;
 
 import org.springframework.stereotype.Repository;
 import web.model.User;
-import web.service.UserService;
-import web.service.UserServiceImpl;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 

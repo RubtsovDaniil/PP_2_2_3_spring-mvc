@@ -38,7 +38,7 @@ public class UserController {
 
     @PostMapping("/update")
     public String updateUser(@RequestParam("userId") long id, @ModelAttribute("user") User user) {
-        userService.updateUser(id, user); // Обновляем пользователя
+        userService.updateUser(id, user);
         return "redirect:/get";
     }
 

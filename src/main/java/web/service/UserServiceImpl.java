@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         existingUser.setName(user.getName());
         existingUser.setLastName(user.getLastName());
         existingUser.setAge(user.getAge());
-        return userDao.saveUser(existingUser);
+        return userDao.updateUser(existingUser);
     }
 
     @Override
