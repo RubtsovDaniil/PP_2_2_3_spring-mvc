@@ -2,8 +2,11 @@ package web.dao;
 
 import org.springframework.stereotype.Repository;
 import web.model.User;
+import web.service.UserService;
+import web.service.UserServiceImpl;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -17,17 +20,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void saveUser(User user) {
-        if (user.getId() == null) {
-            em.persist(user);
-        } else {
-            em.merge(user);
-        }
+    public User saveUser(User user) {
+        em.persist(user);
+        return user;
     }
 
     @Override
-    public void deleteUser(long id) {
-        em.remove(em.getReference(User.class, id));
+    public void deleteUser(User user) {
+        em.remove(user);
     }
 
     @Override
@@ -38,6 +38,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return em.merge(user);
     }
 
 }

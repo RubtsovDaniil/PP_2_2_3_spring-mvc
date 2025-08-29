@@ -2,12 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add User</title>
+    <title th:text="${user.id != null} ? 'hange User' : 'Add User'">Add User</title>
 </head>
 <body>
-<h2>Add User</h2>
+<h2 th:text="${user.id != null} ? 'Change User' : 'Add User'">Add User</h2>
 <br>
-<form th:method="post" th:action="@{/save}" th:object="${user}">
+<form th:method="post"
+      th:action="${user.id != null} ? @{/update(userId=${user.id})} : @{/save}"
+      th:object="${user}">
+
     <input type="hidden" th:field="*{id}"/>
 
     <div>

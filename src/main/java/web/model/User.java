@@ -1,6 +1,7 @@
 package web.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "users")
@@ -10,13 +11,22 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
+    @NotBlank(message = "Поле не может быть пустым")
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё]+$", message = "Имя должно содержать только буквы")
+    @Size(min = 2, max = 50, message = "Имя должно быть от 2 до 50 символов")
     private String name;
 
-    @Column(name = "lastName")
+    @Column(name = "lastName", nullable = false, length = 50)
+    @NotBlank(message = "Поле не может быть пустым")
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё]+$", message = "Фамилия должна содержать только буквы")
+    @Size(min = 2, max = 50, message = "Имя должно быть от 2 до 50 символов")
     private String lastName;
 
-    @Column(name = "age")
+    @Column(name = "age", nullable = false, length = 50)
+    @NotNull(message = "Поле не может быть пустым")
+    @Min(value = 0, message = "Возраст не может быть отрицательным")
+    @Max(value = 120, message = "Возраст не может превышать 120 лет")
     private Byte age;
 
     public User(String name, String lastName, Byte age) {

@@ -23,27 +23,33 @@ public class UserController {
         return "users";
     }
 
-    @RequestMapping("/add")
-    public String saveUser(Model model) {
+    @GetMapping("/add")
+    public String addUser(Model model) {
         User user = new User();
         model.addAttribute("user", user);
         return "addUser";
     }
 
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public String saveUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
         return "redirect:/get";
     }
 
-    @RequestMapping("/update")
-    public String updateUser(Model model, @RequestParam("userId") long id) {
+    @PostMapping("/update")
+    public String updateUser(@RequestParam("userId") long id, @ModelAttribute("user") User user) {
+        userService.updateUser(id, user); // Обновляем пользователя
+        return "redirect:/get";
+    }
+
+    @GetMapping("/update")
+    public String showUpdateUserForm(@RequestParam("userId") long id, Model model) {
         User user = userService.getUser(id);
         model.addAttribute("user", user);
         return "addUser";
     }
 
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
     public String deleteUser(@RequestParam("userId") long id) {
         userService.deleteUser(id);
         return "redirect:/get";

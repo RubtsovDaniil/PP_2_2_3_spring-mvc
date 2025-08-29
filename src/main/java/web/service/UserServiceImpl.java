@@ -2,13 +2,16 @@ package web.service;
 
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
 import web.model.User;
 
-import javax.transaction.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
@@ -17,22 +20,39 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
+    @Override
     @Transactional
-    public void saveUser(User user) {
-        userDao.saveUser(user);
+    public User saveUser(User user) {
+        return userDao.saveUser(user);
     }
 
+    @Override
     @Transactional
     public void deleteUser(long id) {
-        userDao.deleteUser(id);
+        User user = getUser(id);
+        userDao.deleteUser(user);
     }
 
-    @Transactional
+    @Override
     public User getUser(long id) {
-        return userDao.getUser(id);
+        if (userDao.getUser(id) != null) {
+            return userDao.getUser(id);
+        } else {
+            throw new EntityNotFoundException("Пользователь с ID " + id + " не найден");
+        }
     }
 
+    @Override
     @Transactional
+    public User updateUser(long id, User user) {
+        User existingUser = getUser(id);
+        existingUser.setName(user.getName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setAge(user.getAge());
+        return userDao.saveUser(existingUser);
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }

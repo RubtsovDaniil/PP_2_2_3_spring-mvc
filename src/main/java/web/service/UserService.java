@@ -7,11 +7,13 @@ import java.util.List;
 
 public interface UserService {
 
-    void saveUser(User user);
+    User saveUser(User user);
 
     void deleteUser(long id);
 
     User getUser(long id);
+
+    User updateUser(long id, User user);
 
     List<User> getAllUsers();
 
