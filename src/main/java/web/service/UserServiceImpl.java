@@ -35,11 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(long id) {
-        if (userDao.getUser(id) != null) {
-            return userDao.getUser(id);
-        } else {
-            throw new EntityNotFoundException("Пользователь с ID " + id + " не найден");
-        }
+        return userDao.getUser(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("User with id " + id + " not found"));
     }
 
     @Override
